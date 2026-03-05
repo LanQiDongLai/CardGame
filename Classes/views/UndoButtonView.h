@@ -7,6 +7,7 @@ USING_NS_CC;
 class UndoButtonView: public Sprite {
  private:
   UndoButtonView();
+  void initTouchListener();
  public:
   static UndoButtonView* create();
   ~UndoButtonView();
@@ -16,7 +17,8 @@ class UndoButtonView: public Sprite {
   void setCallback(std::function<void()> callback);
 
  private:
-  void onButtonClicked(Touch* touch, Event* event);
+  bool onTouchBegan(Touch* touch, Event* event);
+  void onTouchEnded(Touch* touch, Event* event);
 
   std::function<void()> callback_;
   EventListenerTouchOneByOne* touch_listener_;

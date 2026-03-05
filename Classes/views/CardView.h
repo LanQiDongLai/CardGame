@@ -15,7 +15,7 @@ public:
   void updateView(CardModel& card);
   void playFlipAnimation(CardModel& card);
   void playMoveAnimation(Vec2 new_position);
-  void setClickCallBack(std::function<void()> callback);
+  void setClickCallBack(std::function<void(int)> callback);
  private:
   std::string getCardGeneralResourcePath(CardModel& card);
   std::string getSuitResourcePath(CardModel& card);
@@ -24,7 +24,7 @@ public:
   bool onTouchBegan(Touch* touch, Event* event);
   void onTouchEnded(Touch* touch, Event* event);
 
-  std::function<void()> click_callback_;
+  std::function<void(int)> click_callback_;
   CardModel& card_;
   EventListenerTouchOneByOne* touch_listener_;
 };

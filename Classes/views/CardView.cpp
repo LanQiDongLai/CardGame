@@ -17,7 +17,7 @@ CardView::~CardView() {}
 
 CardView* CardView::create(CardModel& card) {
   CardView* card_view = new CardView(card);
-  if (!card_view) {
+  if (!card_view || !card_view->init()) {
     CC_SAFE_DELETE(card_view);
     return nullptr;
   }
@@ -113,7 +113,7 @@ void CardView::playMoveAnimation(Vec2 new_position) {
   this->runAction(move);
 }
 
-void CardView::setClickCallBack(std::function<void()> callback) {
+void CardView::setClickCallBack(std::function<void(int)> callback) {
   click_callback_ = callback;
 }
 

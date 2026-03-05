@@ -88,8 +88,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     auto scene = Scene::create();
     auto card_model = CardModel::create(11, CardSuitType::CST_HEARTS, CardStage::CS_UNSELECTED, Vec2(300, 300), true);
-    auto cardView = CardView::create(*card_model);
-    scene->addChild(cardView);
+    auto card_view = CardView::create(*card_model);
+    auto undo_button_view = UndoButtonView::create();
+    scene->addChild(card_view);
+    scene->addChild(undo_button_view);
     // run
     director->runWithScene(scene);
 
