@@ -123,7 +123,7 @@ bool CardView::onTouchBegan(Touch* touch, Event* event) {
   Rect rect = Rect(0, 0, size.width, size.height);
   if (rect.containsPoint(locationInNode)) {
     if (click_callback_) {
-      click_callback_();
+      click_callback_(card_.getId());
     }
     return true;
   }

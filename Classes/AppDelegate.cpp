@@ -25,6 +25,7 @@
 #include "AppDelegate.h"
 #include "controllers/GameController.h"
 #include "views/CardView.h"
+#include "services/LevelConfigLoader.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -92,6 +93,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto undo_button_view = UndoButtonView::create();
     scene->addChild(card_view);
     scene->addChild(undo_button_view);
+    auto level_config = LevelConfigLoader::loadLevelConfig(1);
     // run
     director->runWithScene(scene);
 

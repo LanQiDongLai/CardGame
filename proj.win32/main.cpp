@@ -21,6 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#define COCOS2D_DEBUG 1
 
 #include "main.h"
 #include "AppDelegate.h"
