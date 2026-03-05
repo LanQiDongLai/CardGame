@@ -64,7 +64,7 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    auto *game = new GameController;
+    auto *game = GameController::create();
     delete game;
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -87,8 +87,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
 
     auto scene = Scene::create();
-    CardModel card_model(11, CardSuitType::CST_HEARTS, CardStage::CS_UNSELECTED, Vec2(300, 300), false);
-    auto cardView = new CardView(card_model);
+    auto card_model = CardModel::create(11, CardSuitType::CST_HEARTS, CardStage::CS_UNSELECTED, Vec2(300, 300), true);
+    auto cardView = CardView::create(*card_model);
     scene->addChild(cardView);
     // run
     director->runWithScene(scene);

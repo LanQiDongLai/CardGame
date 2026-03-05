@@ -59,12 +59,16 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/controllers/GameController.cpp
      Classes/views/CardView.cpp
+     Classes/views/GameView.cpp
+     Classes/views/UndoButtonView.cpp
      Classes/models/CardModel.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/controllers/GameController.h
      Classes/views/CardView.h
+     Classes/views/GameView.h
+     Classes/views/UndoButtonView.h
      Classes/models/CardModel.h
      )
 

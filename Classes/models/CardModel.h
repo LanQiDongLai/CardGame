@@ -6,9 +6,12 @@
 USING_NS_CC;
 
 class CardModel : public Ref {
- public:
+ private:
   CardModel();
   CardModel(int number, CardSuitType suit_type, CardStage stage,
+            Vec2 position, bool is_face_down);
+ public:
+  static CardModel *create(int number, CardSuitType suit_type, CardStage stage,
                      Vec2 position, bool is_face_down);
   ~CardModel();
   void setNumber(int number);
@@ -23,6 +26,7 @@ class CardModel : public Ref {
   Vec2 getPosition();
   CardFaceType getCardFaceType();
   bool isFaceDown();
+  int getId();
 
  private:
   CardSuitType suit_type_;

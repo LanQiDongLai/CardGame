@@ -1,0 +1,31 @@
+#pragma once
+
+#include "models/GameModel.h"
+#include "views/CardView.h"
+#include "views/UndoButtonView.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
+
+class GameView: public Layer {
+  GameView();
+ public:
+  static GameView *create();
+  ~GameView();
+
+  void addTableCard(CardView *card);
+  void addPlayerHandCard(CardView *card);
+  void addBackupCard(CardView *card);
+
+  void addUndoButton(UndoButtonView *undo_button);
+
+ private:
+
+  std::function<void()> undo_button_callback_;
+
+  Vector<CardView*> table_card_sprites_;
+  Vector<CardView*> player_hand_card_sprites_;
+  Vector<CardView*> backup_card_sprites_;
+
+  EventListenerTouchOneByOne* undo_button_touch_listener_;
+};
