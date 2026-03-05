@@ -23,7 +23,8 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "controllers/GameController.h"
+#include "views/CardView.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -63,6 +64,8 @@ static int register_all_packages()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
+    auto *game = new GameController;
+    delete game;
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -82,8 +85,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
 
+    auto scene = Scene::create();
+    CardModel card_model(11, CardSuitType::CST_HEARTS, CardStage::CS_UNSELECTED, Vec2(300, 300), false);
+    auto cardView = new CardView(card_model);
+    scene->addChild(cardView);
     // run
     director->runWithScene(scene);
 
