@@ -30,7 +30,7 @@ LevelConfig LevelConfigLoader::loadLevelConfig(int level) {
       card_config->suit_type = (static_cast<CardSuitType>((*it)["CardSuit"].GetInt()));
       card_config->stage = CardStage::CS_BACKUP;
       card_config->position = Vec2(0, 0);
-      level_config.addPlayfieldCards(card_config);
+      level_config.addStackCards(card_config);
     }
   }
   return level_config;

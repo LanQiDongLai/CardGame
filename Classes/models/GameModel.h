@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "models/CardModel.h"
 #include <stack>
+#include <vector>
 
 USING_NS_CC;
 
@@ -27,5 +28,5 @@ class GameModel : public Ref {
  private:
   std::stack<CardModel*> player_hand_cards_;
   std::stack<CardModel*> backup_cards_;
-  Vector<CardModel*> table_cards_;
+  std::vector<CardModel*> table_cards_;
 };

@@ -21,7 +21,11 @@ class LevelConfig {
   Vector<CardConfig*> getPlayfieldCards() const;
   void addPlayfieldCards(CardConfig *card);
 
+  Vector<CardConfig*> getStackCards() const;
+  void addStackCards(CardConfig *card);
+
  private:
   int level_;
   Vector<CardConfig*> playfield_cards_;
+  Vector<CardConfig*> stack_cards_;
 };

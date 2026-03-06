@@ -2,7 +2,8 @@
 
 USING_NS_CC;
 
-CardView::CardView(CardModel& card) : card_(card) { updateView(card); }
+CardView::CardView(CardModel* card) : card_(card) {
+}
 
 void CardView::initTouchListener() {
   touch_listener_ = EventListenerTouchOneByOne::create();
@@ -13,9 +14,12 @@ void CardView::initTouchListener() {
                                                            this);
 }
 
-CardView::~CardView() {}
+CardView::~CardView() {
+  CCLOG("Release CardView for card id: %d\n", card_->getId());
+  delete card_;
+}
 
-CardView* CardView::create(CardModel& card) {
+CardView* CardView::create(CardModel* card) {
   CardView* card_view = new CardView(card);
   if (!card_view || !card_view->init()) {
     CC_SAFE_DELETE(card_view);
@@ -23,41 +27,45 @@ CardView* CardView::create(CardModel& card) {
   }
   card_view->autorelease();
   card_view->initTouchListener();
+  card_view->updateView();
   return card_view;
 }
 
-void CardView::updateView(CardModel& card) {
+void CardView::updateView() {
   this->setContentSize(Size(200, 300));
   this->removeAllChildrenWithCleanup(true);
-  this->setPosition(card.getPosition());
-  if (card.isFaceDown()) {
+  this->setPosition(card_->getPosition());
+  if (card_->isFaceDown()) {
     auto card_back = LayerColor::create(Color4B::GRAY, 200, 300);
     this->addChild(card_back, 0);
     return;
   }
   auto card_general = Sprite::create("res/card_general.png");
   this->addChild(card_general, 0);
-  bool is_black;
   Sprite* suit_sprite;
-  suit_sprite = Sprite::create(getSuitResourcePath(card));
+  suit_sprite = Sprite::create(getSuitResourcePath(card_));
   suit_sprite->setPosition(Vec2(50, 100));
   this->addChild(suit_sprite, 1);
   Sprite* big_number_sprite;
-  big_number_sprite = Sprite::create(getNumberResourcePath(card, true));
+  big_number_sprite = Sprite::create(getNumberResourcePath(card_, true));
   big_number_sprite->setPosition(Vec2(0, -20));
   this->addChild(big_number_sprite, 2);
   Sprite* small_number_sprite;
-  small_number_sprite = Sprite::create(getNumberResourcePath(card, false));
+  small_number_sprite = Sprite::create(getNumberResourcePath(card_, false));
   small_number_sprite->setPosition(Vec2(-50, 100));
   this->addChild(small_number_sprite, 2);
 }
 
-std::string CardView::getCardGeneralResourcePath(CardModel& card) {
+CardModel* CardView::getCardModel() {
+  return card_;
+}
+
+std::string CardView::getCardGeneralResourcePath(CardModel* card) {
   return "res/card_general.png";
 }
 
-std::string CardView::getSuitResourcePath(CardModel& card) {
-  switch (card.getCardSuitType()) {
+std::string CardView::getSuitResourcePath(CardModel* card) {
+  switch (card->getCardSuitType()) {
     case CardSuitType::CST_HEARTS:
       return "res/suits/heart.png";
     case CardSuitType::CST_DIAMONDS:
@@ -71,10 +79,10 @@ std::string CardView::getSuitResourcePath(CardModel& card) {
   }
 }
 
-std::string CardView::getNumberResourcePath(CardModel& card, bool is_big) {
-  bool is_black = (card.getCardSuitType() == CardSuitType::CST_CLUBS ||
-                   card.getCardSuitType() == CardSuitType::CST_SPADES);
-  switch (card.getCardFaceType()) {
+std::string CardView::getNumberResourcePath(CardModel* card, bool is_big) {
+  bool is_black = (card->getCardSuitType() == CardSuitType::CST_CLUBS ||
+                   card->getCardSuitType() == CardSuitType::CST_SPADES);
+  switch (card->getCardFaceType()) {
     case CardFaceType::CFT_ACE:
       return "res/number/" +
              (is_big ? std::string("big") : std::string("small")) + "_" +
@@ -95,15 +103,15 @@ std::string CardView::getNumberResourcePath(CardModel& card, bool is_big) {
       return "res/number/" +
              (is_big ? std::string("big") : std::string("small")) + "_" +
              (is_black ? std::string("black") : std::string("red")) + "_" +
-             std::to_string(card.getNumber()) + ".png";
+             std::to_string(card->getNumber()) + ".png";
       break;
   }
 }
 
-void CardView::playFlipAnimation(CardModel& card) {
-  card.setFaceDirection(!card.isFaceDown());
+void CardView::playFlipAnimation(CardModel* card) {
+  card->setFaceDirection(!card->isFaceDown());
   auto flip = FlipX3D::create(0.5f);
-  auto update_func = CallFunc::create([this, &card]() { updateView(card); });
+  auto update_func = CallFunc::create([this, &card]() { updateView(); });
   auto sequence = Sequence::create(flip, update_func, nullptr);
   this->runAction(sequence);
 }
@@ -123,7 +131,7 @@ bool CardView::onTouchBegan(Touch* touch, Event* event) {
   Rect rect = Rect(0, 0, size.width, size.height);
   if (rect.containsPoint(locationInNode)) {
     if (click_callback_) {
-      click_callback_(card_.getId());
+      click_callback_(card_->getId());
     }
     return true;
   }

@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-class CardModel : public Ref {
+class CardModel {
  private:
   CardModel();
   CardModel(int number, CardSuitType suit_type, CardStage stage,

@@ -84,18 +84,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     glview->setDesignResolutionSize(1080, 2080, ResolutionPolicy::FIXED_WIDTH);
 
     register_all_packages();
-
-    // create a scene. it's an autorelease object
-
-    auto scene = Scene::create();
-    auto card_model = CardModel::create(11, CardSuitType::CST_HEARTS, CardStage::CS_UNSELECTED, Vec2(300, 300), true);
-    auto card_view = CardView::create(*card_model);
-    auto undo_button_view = UndoButtonView::create();
-    scene->addChild(card_view);
-    scene->addChild(undo_button_view);
-    auto level_config = LevelConfigLoader::loadLevelConfig(1);
-    // run
-    director->runWithScene(scene);
+    auto game_controller = GameController::create();
+    game_controller->startGame(1);
 
     return true;
 }
