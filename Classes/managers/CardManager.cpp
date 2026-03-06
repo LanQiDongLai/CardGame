@@ -3,9 +3,11 @@
 CardManager::CardManager() {
 }
 
-CardManager* CardManager::getInstance() {
-  static CardManager instance;
-  return &instance;
+CardManager::~CardManager() {
+}
+
+CardManager* CardManager::create() {
+  return new CardManager();
 }
 
 void CardManager::addCardView(int card_id, CardView* card_view) {

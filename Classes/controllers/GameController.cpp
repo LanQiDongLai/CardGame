@@ -5,7 +5,8 @@
 #include "services/LevelConfigLoader.h"
 
 GameController::GameController(GameView* game_view) : game_view_(game_view) {
-  card_manager_ = CardManager::getInstance();
+  card_manager_ = CardManager::create();
+  undo_manager_ = UndoManager::create();
 }
 
 GameController::~GameController() {}
@@ -58,9 +59,19 @@ void GameController::initCards(const LevelConfig& level_config) {
 
 void GameController::handleCardClick(int card_id) {
   auto card_view = card_manager_->getCardView(card_id);
+  undo_manager_->recordMoveAction(card_id, CardStage::CS_SELECTED, card_view->getCardModel()->getPosition(),
+                                  CardStage::CS_SELECTED, Vec2(800, 600));
   card_view->playMoveAnimation(Vec2(800, 600));
 }
 
 void GameController::handleUndoButtonClick() {
-  std::cout << "Undo button clicked" << std::endl;
+  auto move_record = undo_manager_->undo();
+  if (move_record.valid) {
+    printf("Undoing move: card_id=%d, from_stage=%d, from_position=(%.1f, %.1f), to_stage=%d, to_position=(%.1f, %.1f)\n",
+           move_record.card_id, move_record.from_stage, move_record.from_position.x,
+           move_record.from_position.y, move_record.to_stage, move_record.to_position.x,
+           move_record.to_position.y);
+    auto card_view = card_manager_->getCardView(move_record.card_id);
+    card_view->playMoveAnimation(move_record.from_position);
+  }
 }

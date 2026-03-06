@@ -4,6 +4,7 @@
 #include "views/GameView.h"
 #include "configs/LevelConfig.h"
 #include "managers/CardManager.h"
+#include "managers/UndoManager.h"
 #include <string>
 
 USING_NS_CC;
@@ -21,5 +22,6 @@ class GameController {
  private:
   void initCards(const LevelConfig &level_config);
   CardManager *card_manager_;
+  UndoManager *undo_manager_;
   GameView *game_view_;
 };

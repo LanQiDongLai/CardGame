@@ -66,6 +66,7 @@ list(APPEND GAME_SOURCE
      Classes/services/LevelConfigLoader.cpp
      Classes/managers/CardManager.cpp
      Classes/models/GameModel.cpp
+     Classes/managers/UndoManager.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -78,6 +79,7 @@ list(APPEND GAME_HEADER
      Classes/services/LevelConfigLoader.h
      Classes/managers/CardManager.h
      Classes/models/GameModel.h
+     Classes/managers/UndoManager.h
      )
 
 if(ANDROID)

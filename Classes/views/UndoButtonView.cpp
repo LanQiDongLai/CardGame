@@ -2,11 +2,11 @@
 #include "UndoButtonView.h"
 
 UndoButtonView::UndoButtonView() {
-  updateView();
 }
 
 void UndoButtonView::initTouchListener() {
   touch_listener_ = EventListenerTouchOneByOne::create();
+  touch_listener_->setSwallowTouches(true);
   touch_listener_->onTouchBegan = CC_CALLBACK_2(UndoButtonView::onTouchBegan, this);
   touch_listener_->onTouchEnded = CC_CALLBACK_2(UndoButtonView::onTouchEnded, this);
   _eventDispatcher->addEventListenerWithSceneGraphPriority(touch_listener_, this);
@@ -20,6 +20,7 @@ UndoButtonView *UndoButtonView::create() {
   }
   undo_button_view->autorelease();
   undo_button_view->initTouchListener();
+  undo_button_view->updateView();
   return undo_button_view;
 }
 

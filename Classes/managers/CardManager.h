@@ -9,7 +9,8 @@ class CardManager {
  private:
   CardManager();
  public:
-  static CardManager* getInstance();
+  ~CardManager();
+  static CardManager* create();
 
   void addCardView(int card_id, CardView* card_view);
 
