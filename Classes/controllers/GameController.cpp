@@ -11,7 +11,8 @@ GameController::GameController(GameView* game_view) : game_view_(game_view) {
 GameController::~GameController() {}
 
 GameController* GameController::create() {
-  auto game_view = GameView::create();
+  auto game_model = GameModel::create();
+  auto game_view = GameView::create(game_model);
   return new GameController(game_view);
 }
 
@@ -35,7 +36,7 @@ void GameController::initCards(const LevelConfig& level_config) {
     auto card_view = CardView::create(card_model);
     card_view->setClickCallBack(
         [this](int card_id) { this->handleCardClick(card_id); });
-    game_view_->addChild(card_view);
+    game_view_->addTableCard(card_view);
     card_manager_->addCardView(card_model->getId(), card_view);
   }
   int stack_card_count = level_config.getStackCards().size();
@@ -50,18 +51,14 @@ void GameController::initCards(const LevelConfig& level_config) {
     auto card_view = CardView::create(card_model);
     card_view->setClickCallBack(
         [this](int card_id) { this->handleCardClick(card_id); });
-    game_view_->addChild(card_view, count);
+    game_view_->addBackupCard(card_view);
     card_manager_->addCardView(card_model->getId(), card_view);
   }
 }
 
 void GameController::handleCardClick(int card_id) {
-  auto card_model = card_manager_->getCardView(card_id)->getCardModel();
-  card_model->setNumber(6);
-  CardView* card_view = card_manager_->getCardView(card_id);
-  if (card_view) {
-    card_view->updateView();
-  }
+  auto card_view = card_manager_->getCardView(card_id);
+  card_view->playMoveAnimation(Vec2(800, 600));
 }
 
 void GameController::handleUndoButtonClick() {

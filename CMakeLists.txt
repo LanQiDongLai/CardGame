@@ -64,6 +64,8 @@ list(APPEND GAME_SOURCE
      Classes/models/CardModel.cpp
      Classes/configs/LevelConfig.cpp
      Classes/services/LevelConfigLoader.cpp
+     Classes/managers/CardManager.cpp
+     Classes/models/GameModel.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -74,6 +76,8 @@ list(APPEND GAME_HEADER
      Classes/models/CardModel.h
      Classes/configs/LevelConfig.h
      Classes/services/LevelConfigLoader.h
+     Classes/managers/CardManager.h
+     Classes/models/GameModel.h
      )
 
 if(ANDROID)

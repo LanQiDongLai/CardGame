@@ -8,9 +8,10 @@
 USING_NS_CC;
 
 class GameView: public Layer {
-  GameView();
+ private:
+  GameView(GameModel* game_model);
  public:
-  static GameView *create();
+  static GameView *create(GameModel* game_model);
   ~GameView();
 
   void addTableCard(CardView *card);
@@ -28,4 +29,6 @@ class GameView: public Layer {
   Vector<CardView*> backup_card_sprites_;
 
   EventListenerTouchOneByOne* undo_button_touch_listener_;
+
+  GameModel* game_model_;
 };

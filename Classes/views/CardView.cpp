@@ -108,15 +108,9 @@ std::string CardView::getNumberResourcePath(CardModel* card, bool is_big) {
   }
 }
 
-void CardView::playFlipAnimation(CardModel* card) {
-  card->setFaceDirection(!card->isFaceDown());
-  auto flip = FlipX3D::create(0.5f);
-  auto update_func = CallFunc::create([this, &card]() { updateView(); });
-  auto sequence = Sequence::create(flip, update_func, nullptr);
-  this->runAction(sequence);
-}
-
 void CardView::playMoveAnimation(Vec2 new_position) {
+  this->setLocalZOrder(100);
+  card_->setPosition(new_position);
   auto move = MoveTo::create(0.5f, new_position);
   this->runAction(move);
 }

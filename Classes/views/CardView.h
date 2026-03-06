@@ -13,7 +13,6 @@ public:
   ~CardView();
   static CardView* create(CardModel* card);
   void updateView();
-  void playFlipAnimation(CardModel* card);
   void playMoveAnimation(Vec2 new_position);
   void setClickCallBack(std::function<void(int)> callback);
   CardModel* getCardModel();

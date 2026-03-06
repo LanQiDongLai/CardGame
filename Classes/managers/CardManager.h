@@ -6,25 +6,15 @@
 USING_NS_CC;
 
 class CardManager {
+ private:
+  CardManager();
  public:
-  static CardManager* getInstance() {
-    static CardManager instance;
-    return &instance;
-  }
+  static CardManager* getInstance();
 
-  void addCardView(int card_id, CardView* card_view) {
-    card_views_[card_id] = card_view;
-  }
+  void addCardView(int card_id, CardView* card_view);
 
-  CardView* getCardView(int card_id) {
-    auto it = card_views_.find(card_id);
-    if (it != card_views_.end()) {
-      return it->second;
-    }
-    return nullptr;
-  }
+  CardView* getCardView(int card_id);
 
  private:
-  CardManager() {}
   std::unordered_map<int, CardView*> card_views_;
 };

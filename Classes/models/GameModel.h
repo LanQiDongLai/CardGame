@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-class GameModel : public Ref {
+class GameModel {
  private:
   GameModel();
  public:

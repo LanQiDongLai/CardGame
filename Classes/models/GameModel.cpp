@@ -5,12 +5,7 @@ GameModel::GameModel() {
 
 GameModel *GameModel::create() {
   GameModel* game_model = new GameModel();
-  if (game_model) {
-    game_model->autorelease();
-    return game_model;
-  }
-  CC_SAFE_DELETE(game_model);
-  return nullptr;
+  return game_model;
 }
 
 GameModel::~GameModel() {
@@ -34,7 +29,7 @@ void GameModel::pushPlayerHandCard(CardModel *card) {
 }
 
 void GameModel::popPlayerHandCard(int card_id) {
-  Stack<CardModel*> temp_stack;
+  std::stack<CardModel*> temp_stack;
   while (!player_hand_cards_.empty()) {
     CardModel* top_card = player_hand_cards_.top();
     player_hand_cards_.pop();
