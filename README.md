@@ -31,7 +31,7 @@ Windows11，cocos2d-x
 │   │   └── LevelConfigLoader       关卡配置加载器，用于从文件中读取关卡信息
 │   ├── Managers                管理层
 │   │   ├── UndoManager             撤销管理，用于记录各种操作和返回上次操作
-│   │   └── CardManager             卡牌管理，用于存储卡牌数据
+│   │   └── CardManager             卡牌管理，用于快速通过卡牌的 ID 获取卡牌数据
 │   └── utils                   工具层
 ├── Resource                    静态资源
 ├── .\build.bat                 编译脚本
