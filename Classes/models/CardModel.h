@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 
+// 卡牌模型类，包含了牌的基本信息和状态
 class CardModel {
  private:
   CardModel();

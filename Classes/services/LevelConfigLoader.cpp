@@ -17,7 +17,7 @@ LevelConfig LevelConfigLoader::loadLevelConfig(int level) {
       CardConfig *card_config = new CardConfig();
       card_config->number = ((*it)["CardFace"].GetInt());
       card_config->suit_type = (static_cast<CardSuitType>((*it)["CardSuit"].GetInt()));
-      card_config->stage = CardStage::CS_UNSELECTED;
+      card_config->stage = CardStage::CS_TABLE;
       card_config->position = (Vec2((*it)["Position"]["x"].GetInt(), (*it)["Position"]["y"].GetInt()));
       level_config.addPlayfieldCards(card_config);
     }

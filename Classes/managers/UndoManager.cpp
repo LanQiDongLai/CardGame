@@ -23,5 +23,5 @@ UndoManager::MoveRecord UndoManager::undo() {
     move_history_.pop_back();
     return last_move;
   }
-  return UndoManager::MoveRecord{false, 0, CardStage::CS_UNSELECTED, Vec2::ZERO, CardStage::CS_UNSELECTED, Vec2::ZERO};
+  return UndoManager::MoveRecord{false, 0, CardStage::CS_TABLE, Vec2::ZERO, CardStage::CS_TABLE, Vec2::ZERO};
 }

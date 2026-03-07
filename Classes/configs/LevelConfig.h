@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 
+// 牌的配置类，包含了牌的基本信息
 struct CardConfig : public Ref {
   int number;
   CardSuitType suit_type;
@@ -12,6 +13,7 @@ struct CardConfig : public Ref {
   Vec2 position;
 };
 
+// 关卡配置类，包含了关卡的基本信息
 class LevelConfig {
  public:
 

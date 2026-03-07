@@ -5,6 +5,7 @@
 #include "views/CardView.h"
 USING_NS_CC;
 
+// 卡牌管理器，负责管理游戏中的所有卡牌视图，包括添加、获取等操作
 class CardManager {
  private:
   CardManager();

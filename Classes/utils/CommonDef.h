@@ -13,9 +13,9 @@ enum CardSuitType {
 // 卡牌的状态
 enum CardStage {
   CS_NONE,
-  CS_UNSELECTED,
-  CS_BACKUP,
-  CS_SELECTED
+  CS_TABLE, // 桌面拍
+  CS_BACKUP,     // 备份牌
+  CS_HAND    // 玩家手牌
 };
 
 // 正面类型

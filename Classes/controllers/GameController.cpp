@@ -64,7 +64,7 @@ void GameController::handleBackUpCardClick(int card_id) {
   if (card_view->getCardModel()->getCardStage() == CardStage::CS_BACKUP) {
     undo_manager_->recordMoveAction(card_id, CardStage::CS_BACKUP,
                                     card_view->getCardModel()->getPosition(),
-                                    CardStage::CS_SELECTED, Vec2(800, 600));
+                                    CardStage::CS_HAND, Vec2(800, 600));
     card_view->playMoveAnimation(Vec2(800, 600));
     game_model->popBackupCard();
     game_model->pushPlayerHandCard(card_view->getCardModel());
@@ -79,21 +79,20 @@ void GameController::handleTableCardClick(int card_id) {
   bool is_card_in_hand_match =
       !card_in_hand ||
       CardMatcher::canMatch(card_model->getNumber(), card_in_hand->getNumber());
-  if (card_model->getCardStage() == CardStage::CS_UNSELECTED &&
+  if (card_model->getCardStage() == CardStage::CS_TABLE &&
       is_card_in_hand_match) {
-    undo_manager_->recordMoveAction(card_id, CardStage::CS_UNSELECTED,
+    undo_manager_->recordMoveAction(card_id, CardStage::CS_TABLE,
                                     card_model->getPosition(),
-                                    CardStage::CS_SELECTED, Vec2(800, 600));
+                                    CardStage::CS_HAND, Vec2(800, 600));
     card_view->playMoveAnimation(Vec2(800, 600));
-    if(card_model->getCardStage() == CardStage::CS_UNSELECTED) {
+    if(card_model->getCardStage() == CardStage::CS_TABLE) {
       game_model->removeTableCard(card_id);
     } else if(card_model->getCardStage() == CardStage::CS_BACKUP) {
       game_model->popBackupCard();
     }
     game_model->pushPlayerHandCard(card_model);
-    card_model->setCardStage(CardStage::CS_SELECTED);
+    card_model->setCardStage(CardStage::CS_HAND);
   }
-  printf("Top player hand card: %d\n", game_model->getTopPlayerHandCard()->getNumber());
 }
 
 void GameController::handleUndoButtonClick() {

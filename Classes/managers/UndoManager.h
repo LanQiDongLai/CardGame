@@ -4,6 +4,7 @@
 
 USING_NS_CC;
 
+// 撤销管理器，负责记录玩家的操作历史，并提供撤销功能
 class UndoManager {
  private:
   UndoManager();

@@ -7,6 +7,7 @@
 
 USING_NS_CC;
 
+// 游戏模型类，包含了游戏的基本数据结构和状态信息
 class GameModel {
  private:
   GameModel();

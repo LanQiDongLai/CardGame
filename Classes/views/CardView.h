@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 
+// 卡牌视图类，负责显示卡牌的图像，并处理用户的点击事件
 class CardView: public Sprite {
 private:
   CardView(CardModel* card);

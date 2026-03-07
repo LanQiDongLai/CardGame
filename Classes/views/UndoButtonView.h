@@ -4,6 +4,7 @@
 
 USING_NS_CC;
 
+// 撤销按钮视图类，负责显示撤销按钮，并处理用户的点击事件
 class UndoButtonView: public Sprite {
  private:
   UndoButtonView();

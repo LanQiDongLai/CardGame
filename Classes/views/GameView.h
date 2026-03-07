@@ -7,6 +7,7 @@
 
 USING_NS_CC;
 
+// 游戏视图类，负责显示游戏界面，包括桌面牌、玩家手牌、备份牌和撤销按钮等元素
 class GameView: public Layer {
  private:
   GameView(GameModel* game_model);
