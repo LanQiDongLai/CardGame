@@ -122,7 +122,7 @@ void CardView::setClickCallBack(std::function<void(int)> callback) {
 bool CardView::onTouchBegan(Touch* touch, Event* event) {
   Vec2 locationInNode = this->convertToNodeSpace(touch->getLocation());
   Size size = this->getContentSize();
-  Rect rect = Rect(0, 0, size.width, size.height);
+  Rect rect = Rect(-size.width/2, -size.height/2, size.width, size.height);
   if (rect.containsPoint(locationInNode)) {
     if (click_callback_) {
       click_callback_(card_->getId());
