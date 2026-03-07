@@ -60,24 +60,22 @@ void GameController::initCards(const LevelConfig& level_config) {
 
 void GameController::handleBackUpCardClick(int card_id) {
   auto card_view = card_manager_->getCardView(card_id);
+  auto game_model = game_view_->getGameModel();
   if (card_view->getCardModel()->getCardStage() == CardStage::CS_BACKUP) {
     undo_manager_->recordMoveAction(card_id, CardStage::CS_BACKUP,
                                     card_view->getCardModel()->getPosition(),
                                     CardStage::CS_SELECTED, Vec2(800, 600));
     card_view->playMoveAnimation(Vec2(800, 600));
+    game_model->popBackupCard();
+    game_model->pushPlayerHandCard(card_view->getCardModel());
   }
 }
 
 void GameController::handleTableCardClick(int card_id) {
   auto card_view = card_manager_->getCardView(card_id);
   auto card_model = card_view->getCardModel();
-  auto card_in_hand = game_view_->getTopPlayerHandCard();
-  game_view_->pushPlayerHandCard(card_view);
-  printf("canMatch: %d\n",
-         card_in_hand
-             ? CardMatcher::canMatch(card_model->getNumber(),
-                                      card_in_hand->getNumber())
-             : -1);
+  auto game_model = game_view_->getGameModel();
+  auto card_in_hand = game_model->getTopPlayerHandCard();
   bool is_card_in_hand_match =
       !card_in_hand ||
       CardMatcher::canMatch(card_model->getNumber(), card_in_hand->getNumber());
@@ -87,12 +85,23 @@ void GameController::handleTableCardClick(int card_id) {
                                     card_model->getPosition(),
                                     CardStage::CS_SELECTED, Vec2(800, 600));
     card_view->playMoveAnimation(Vec2(800, 600));
+    if(card_model->getCardStage() == CardStage::CS_UNSELECTED) {
+      game_model->removeTableCard(card_id);
+    } else if(card_model->getCardStage() == CardStage::CS_BACKUP) {
+      game_model->popBackupCard();
+    }
+    game_model->pushPlayerHandCard(card_model);
+    card_model->setCardStage(CardStage::CS_SELECTED);
   }
+  printf("Top player hand card: %d\n", game_model->getTopPlayerHandCard()->getNumber());
 }
 
 void GameController::handleUndoButtonClick() {
   auto move_record = undo_manager_->undo();
+  auto game_model = game_view_->getGameModel();
   if (move_record.valid) {
+    CardModel * card_model = game_model->popPlayerHandCard();  
+    card_model->setCardStage(move_record.from_stage);
     auto card_view = card_manager_->getCardView(move_record.card_id);
     card_view->getCardModel()->setCardStage(move_record.from_stage);
     card_view->playMoveAnimation(move_record.from_position);
