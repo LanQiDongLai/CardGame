@@ -18,12 +18,15 @@ class GameModel {
   void removeTableCard(int card_id);
 
   void pushPlayerHandCard(CardModel *card);
-  void popPlayerHandCard(int card_id);
+  CardModel* popPlayerHandCard();
+  bool isPlayerHandEmpty() const;
 
   void pushBackupCard(CardModel *card);
   void popBackupCard();
   bool isBackupEmpty() const;
+
   CardModel* getTopBackupCard();
+  CardModel* getTopPlayerHandCard();
 
  private:
   std::stack<CardModel*> player_hand_cards_;

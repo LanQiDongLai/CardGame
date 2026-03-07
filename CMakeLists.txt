@@ -67,6 +67,7 @@ list(APPEND GAME_SOURCE
      Classes/managers/CardManager.cpp
      Classes/models/GameModel.cpp
      Classes/managers/UndoManager.cpp
+     Classes/services/CardMatcher.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -80,6 +81,7 @@ list(APPEND GAME_HEADER
      Classes/managers/CardManager.h
      Classes/models/GameModel.h
      Classes/managers/UndoManager.h
+     Classes/services/CardMatcher.h
      )
 
 if(ANDROID)

@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "services/CardMatcher.h"
 #include "services/LevelConfigLoader.h"
 
 GameController::GameController(GameView* game_view) : game_view_(game_view) {
@@ -36,7 +37,7 @@ void GameController::initCards(const LevelConfig& level_config) {
         card_config->position + Vec2(100, 800), false);
     auto card_view = CardView::create(card_model);
     card_view->setClickCallBack(
-        [this](int card_id) { this->handleCardClick(card_id); });
+        [this](int card_id) { this->handleTableCardClick(card_id); });
     game_view_->addTableCard(card_view);
     card_manager_->addCardView(card_model->getId(), card_view);
   }
@@ -51,27 +52,49 @@ void GameController::initCards(const LevelConfig& level_config) {
         card_config->position + offset, false);
     auto card_view = CardView::create(card_model);
     card_view->setClickCallBack(
-        [this](int card_id) { this->handleCardClick(card_id); });
+        [this](int card_id) { this->handleBackUpCardClick(card_id); });
     game_view_->addBackupCard(card_view);
     card_manager_->addCardView(card_model->getId(), card_view);
   }
 }
 
-void GameController::handleCardClick(int card_id) {
+void GameController::handleBackUpCardClick(int card_id) {
   auto card_view = card_manager_->getCardView(card_id);
-  undo_manager_->recordMoveAction(card_id, CardStage::CS_SELECTED, card_view->getCardModel()->getPosition(),
-                                  CardStage::CS_SELECTED, Vec2(800, 600));
-  card_view->playMoveAnimation(Vec2(800, 600));
+  if (card_view->getCardModel()->getCardStage() == CardStage::CS_BACKUP) {
+    undo_manager_->recordMoveAction(card_id, CardStage::CS_BACKUP,
+                                    card_view->getCardModel()->getPosition(),
+                                    CardStage::CS_SELECTED, Vec2(800, 600));
+    card_view->playMoveAnimation(Vec2(800, 600));
+  }
+}
+
+void GameController::handleTableCardClick(int card_id) {
+  auto card_view = card_manager_->getCardView(card_id);
+  auto card_model = card_view->getCardModel();
+  auto card_in_hand = game_view_->getTopPlayerHandCard();
+  game_view_->pushPlayerHandCard(card_view);
+  printf("canMatch: %d\n",
+         card_in_hand
+             ? CardMatcher::canMatch(card_model->getNumber(),
+                                      card_in_hand->getNumber())
+             : -1);
+  bool is_card_in_hand_match =
+      !card_in_hand ||
+      CardMatcher::canMatch(card_model->getNumber(), card_in_hand->getNumber());
+  if (card_model->getCardStage() == CardStage::CS_UNSELECTED &&
+      is_card_in_hand_match) {
+    undo_manager_->recordMoveAction(card_id, CardStage::CS_UNSELECTED,
+                                    card_model->getPosition(),
+                                    CardStage::CS_SELECTED, Vec2(800, 600));
+    card_view->playMoveAnimation(Vec2(800, 600));
+  }
 }
 
 void GameController::handleUndoButtonClick() {
   auto move_record = undo_manager_->undo();
   if (move_record.valid) {
-    printf("Undoing move: card_id=%d, from_stage=%d, from_position=(%.1f, %.1f), to_stage=%d, to_position=(%.1f, %.1f)\n",
-           move_record.card_id, move_record.from_stage, move_record.from_position.x,
-           move_record.from_position.y, move_record.to_stage, move_record.to_position.x,
-           move_record.to_position.y);
     auto card_view = card_manager_->getCardView(move_record.card_id);
+    card_view->getCardModel()->setCardStage(move_record.from_stage);
     card_view->playMoveAnimation(move_record.from_position);
   }
 }

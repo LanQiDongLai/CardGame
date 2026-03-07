@@ -15,10 +15,15 @@ class GameView: public Layer {
   ~GameView();
 
   void addTableCard(CardView *card);
-  void addPlayerHandCard(CardView *card);
+  void pushPlayerHandCard(CardView *card);
+  void popPlayerHandCard(CardView *card, CardStage new_stage);
   void addBackupCard(CardView *card);
 
   void addUndoButton(UndoButtonView *undo_button);
+
+  CardModel* getTableCardById(int card_id);
+  CardModel* getTopPlayerHandCard();
+  CardModel* getTopBackupCard();
 
  private:
 

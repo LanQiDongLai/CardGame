@@ -28,20 +28,17 @@ void GameModel::pushPlayerHandCard(CardModel *card) {
   player_hand_cards_.push(card);
 }
 
-void GameModel::popPlayerHandCard(int card_id) {
-  std::stack<CardModel*> temp_stack;
-  while (!player_hand_cards_.empty()) {
-    CardModel* top_card = player_hand_cards_.top();
+CardModel* GameModel::popPlayerHandCard() {
+  if(!player_hand_cards_.empty()) {
+    auto top_card = player_hand_cards_.top();
     player_hand_cards_.pop();
-    if (top_card->getId() == card_id) {
-      break;
-    }
-    temp_stack.push(top_card);
+    return top_card;
   }
-  while (!temp_stack.empty()) {
-    player_hand_cards_.push(temp_stack.top());
-    temp_stack.pop();
-  }
+  return nullptr;
+}
+
+bool GameModel::isPlayerHandEmpty() const {
+  return player_hand_cards_.empty();
 }
 
 void GameModel::pushBackupCard(CardModel *card) {
@@ -61,6 +58,13 @@ bool GameModel::isBackupEmpty() const {
 CardModel* GameModel::getTopBackupCard() {
   if (!backup_cards_.empty()) {
     return backup_cards_.top();
+  }
+  return nullptr;
+}
+
+CardModel* GameModel::getTopPlayerHandCard() {
+  if (!player_hand_cards_.empty()) {
+    return player_hand_cards_.top();
   }
   return nullptr;
 }

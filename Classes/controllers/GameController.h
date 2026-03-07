@@ -16,7 +16,8 @@ class GameController {
   static GameController *create();
   ~GameController();
   void startGame(int level);
-  void handleCardClick(int card_id);
+  void handleBackUpCardClick(int card_id);
+  void handleTableCardClick(int card_id);
   void handleUndoButtonClick();
 
  private:
